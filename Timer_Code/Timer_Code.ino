@@ -1,18 +1,18 @@
 
 
-// constants won't change. They're used here to set pin numbers:
+// constants
 const int buttonPin = 2;     // the number of the pushbutton pin
 const int tonePin = 1;      //the number of the speaker pin
 const int ledPin = 0;       //the number of the LED pin
 const int led2Pin = 3;       //the number of the LED pin
 const int led3Pin = 4;       //the number of the LED pin
 
-// variables will change:
+// variables
 byte currentButtonState = HIGH;         // variable for reading the pushbutton status
 byte previousButtonState = HIGH;       // start old button state as off
 
-long timerPeriod = 10000;  //countdown timer period 300000 - 5 min
-const long reminderPeriod = 5000;  //period of delay to 2nd reminder 60000 - 1 min
+long timerPeriod = 10000;  //countdown timer period 300000 = 5 min
+const long reminderPeriod = 5000;  //period of delay to 2nd reminder 60000 = 1 min
 const long toneFreq = 7500;   //freq of the beep noise 2500 or 7500
 
 long millis_held;    // How long the button was held (milliseconds)
@@ -37,11 +37,11 @@ void loop() {
   // if the button state changes to pressed, remember the start time, debounce delay 50
   if (currentButtonState == LOW && previousButtonState == HIGH && (millis() - firstTime) > 50) {
     firstTime = millis();
-    beep(2000);    //let user know button was pressed
+    beep(125);    //let user know button was pressed
+    previousButtonState == LOW;
   }
     millis_held = (millis() - firstTime);
   
-
     // This if statement is a basic debouncing tool, the button must be pushed for at least
   // 100 milliseconds in a row for it to be considered as a push. 50+50= 100
   if (millis_held > 50) {
@@ -67,7 +67,7 @@ void loop() {
     if (currentButtonState == HIGH && previousButtonState == LOW) {
       // Button pressed for less than 2 seconds, run countdown timer
       if (millis_held <2000) {
-        //beep(500);    //let user know button was pressed
+        //beep(125);    //let user know button was pressed
         delay(timerPeriod);      //length of countdown timer delay
         alarm();
         delay(reminderPeriod);   // length of reminder delay
@@ -79,9 +79,8 @@ void loop() {
     previousButtonState = currentButtonState;
 }
 void beep(int onTime){
-  
-  tone(tonePin,toneFreq,onTime);
   digitalWrite(ledPin, HIGH);
+  tone(tonePin,toneFreq,onTime);
   digitalWrite(tonePin,LOW);
   digitalWrite(ledPin, LOW);
 }  
